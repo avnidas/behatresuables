@@ -1,0 +1,87 @@
+#behat.yml
+
+default:
+  autoload:
+    '': %paths.base%/features/bootstrap
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\ConfigContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+      paths:
+        - %paths.base%/features
+  extensions:
+    SensioLabs\Behat\PageObjectExtension:
+      namespaces:
+        page: [Features\Page]
+        element: [Features\Page\Element]
+    Behat\MinkExtension:
+      browser_name: 'chrome'
+      goutte: ~
+      sessions:
+          my_session:
+           goutte:
+            guzzle_parameters:
+             ssl.certificate_authority: false
+      base_url: http://localhost:8888/drupal-8.2.4/
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: /Applications/MAMP/htdocs/drupal-8.2.4
+      text:
+        username_field: 'edit-name'
+        password_field: 'edit-pass'
+      region_map:
+        left sidebar: "#sidebar-first"
+        content: "#content"
+      selectors:
+        error_message_selector: '.messages--error'
+
+
+platformsh:
+  autoload:
+    '': %paths.base%/features/bootstrap
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\ConfigContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MessageContext
+      paths:
+        - %paths.base%/features
+  extensions:
+    Behat\MinkExtension:
+
+    Drupal\DrupalExtension:
+         blackbox: ~
+         api_driver: 'drupal'
+         drupal:
+           drupal_root: "/app/docroot"
+
+
+test:
+    autoload:
+     '': %paths.base%/features/bootstrap
+    suites:
+      default:
+        contexts:
+          - FeatureContext
+          - Drupal\DrupalExtension\Context\ConfigContext
+          - Drupal\DrupalExtension\Context\MinkContext
+          - Drupal\DrupalExtension\Context\DrupalContext
+          - Drupal\DrupalExtension\Context\MessageContext
+        paths:
+          - %paths.base%/features
+    extensions:
+      Behat\MinkExtension:
+        base_url: http://www.axelerant.com
+        goutte: ~
+
+
+
